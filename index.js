@@ -1,7 +1,9 @@
-require("dotenv").config();
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import nodemailer from 'nodemailer';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
