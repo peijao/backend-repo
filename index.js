@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
@@ -8,26 +9,29 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Настройка SMTP Zoho Europe
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.eu",
   port: 587,
-  secure: false, // TLS
+  secure: false,
   auth: {
-    user: "sait@ageinvest.am",
-    pass: "552065Gor!", // пароль от ящика или пароль приложения (если включена 2FA)
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false,
   },
 });
 
-// Обработка POST-запроса с формы
+transporter.verify((error, success) => {
+  if (error) console.error("SMTP error:", error);
+  else console.log("SMTP ready to send messages");
+});
+
 app.post("/send", (req, res) => {
   const { formName, formPhone, formMessage } = req.body;
 
   const mailOptions = {
-    from: "sait@ageinvest.am",
+    from: process.env.EMAIL_USER,
     to: "info@ageinvest.am",
     subject: `Новое сообщение от ${formName}`,
     text: `Имя: ${formName}\nТелефон: ${formPhone}\nСообщение: ${formMessage}`,
@@ -35,10 +39,10 @@ app.post("/send", (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error("Ошибка отправки почты:", error);
+      console.error("Ошибка отправки:", error);
       return res.status(500).json({ message: "Ошибка при отправке письма" });
     }
-    console.log("Письмо успешно отправлено:", info.response);
+    console.log("Письмо отправлено:", info.response);
     res.json({ message: "Сообщение отправлено!" });
   });
 });
