@@ -11,6 +11,11 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Простой GET для проверки, что сервер живой
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
+
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.eu",
   port: 587,
