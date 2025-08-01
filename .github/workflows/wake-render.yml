@@ -1,0 +1,13 @@
+name: Wake Render Every 15 Minutes
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render backend
+        run: curl -s https://ageinvest-backend.onrender.com/ping
