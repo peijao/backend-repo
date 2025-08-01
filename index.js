@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
+// Роут для пинга (пробуждения сервера)
+app.get('/ping', (req, res) => {
+  res.status(200).send('OK');
+});
+
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.eu",
   port: 587,
@@ -57,3 +62,4 @@ app.post("/send", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
+
