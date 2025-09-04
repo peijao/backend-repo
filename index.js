@@ -44,7 +44,7 @@ app.post("/send", (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "gevorg@ageinvest.am",
+    to: "info@ageinvest.am",
     subject: `Новое сообщение от ${formName}`,
     text: `Имя: ${formName}\nТелефон: ${formPhone}\nСообщение: ${formMessage}`,
   };
