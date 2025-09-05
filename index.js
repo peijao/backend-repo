@@ -11,14 +11,17 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Простой GET для проверки, что сервер живой
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
-// Роут для пинга (пробуждения сервера)
 app.get('/ping', (req, res) => {
   res.status(200).send('OK');
+});
+
+// 🔹 Новый endpoint для cron
+app.get('/keep-alive', (req, res) => {
+  res.status(200).send('Alive');
 });
 
 const transporter = nodemailer.createTransport({
@@ -62,4 +65,3 @@ app.post("/send", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
-
